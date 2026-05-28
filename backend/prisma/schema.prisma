@@ -1,0 +1,147 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Enums replace the CHECK (col IN (...)) constraints from the original SQL.
+// Postgres stores them as native enum types — same enforcement, cleaner TS.
+// ──────────────────────────────────────────────────────────────────────────
+
+enum Sex {
+  m
+  f
+}
+
+enum UserRoleStatus {
+  active
+  inactive
+}
+
+enum ScreeningResult {
+  suspected
+  low_risk
+}
+
+enum SymptomCategory {
+  behavioral
+  cognitive
+  physical
+}
+
+// ──────────────────────────────────────────────────────────────────────────
+// Models. Field names are camelCase (Prisma idiom for clean TS); DB columns
+// stay snake_case via @map / @@map so the Postgres schema matches the
+// original SQL.
+// ──────────────────────────────────────────────────────────────────────────
+
+model User {
+  id        String    @id @db.Uuid
+  name      String
+  email     String    @unique
+  createdAt DateTime  @default(now()) @map("created_at") @db.Timestamptz
+  deletedAt DateTime? @map("deleted_at") @db.Timestamptz
+
+  roles       UserRole[]
+  assessments Assessment[]
+
+  @@map("user")
+}
+
+model Role {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+
+  users UserRole[]
+
+  @@map("role")
+}
+
+model UserRole {
+  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId     String         @map("user_id") @db.Uuid
+  roleId     Int            @map("role_id")
+  assignedAt DateTime       @default(now()) @map("assigned_at") @db.Timestamptz
+  status     UserRoleStatus @default(active)
+
+  user User @relation(fields: [userId], references: [id])
+  role Role @relation(fields: [roleId], references: [id])
+
+  @@map("user_role")
+}
+
+model PatientGuardian {
+  id    String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  name  String
+  cpf   String? @unique @map("cpf") @db.VarChar(11)
+  email String?
+  phone String? @db.VarChar(13)
+
+  patients Patient[]
+
+  @@map("patient_guardian")
+}
+
+model Patient {
+  id         String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  guardianId String?   @map("guardian_id") @db.Uuid
+  name       String
+  sex        Sex
+  birthDate  DateTime  @map("birth_date") @db.Date
+  deletedAt  DateTime? @map("deleted_at") @db.Timestamptz
+
+  guardian    PatientGuardian? @relation(fields: [guardianId], references: [id], onDelete: SetNull)
+  assessments Assessment[]
+
+  @@map("patient")
+}
+
+model Assessment {
+  id               String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  userId           String           @map("user_id") @db.Uuid
+  patientId        String           @map("patient_id") @db.Uuid
+  score            Decimal?         @db.Decimal(3, 2)
+  screeningResult  ScreeningResult? @map("screening_result")
+  assessmentDate   DateTime         @default(now()) @map("assessment_date") @db.Timestamptz
+  appliedThreshold Decimal?         @map("applied_threshold") @db.Decimal(4, 3)
+  deletedAt        DateTime?        @map("deleted_at") @db.Timestamptz
+
+  user     User                @relation(fields: [userId], references: [id])
+  patient  Patient             @relation(fields: [patientId], references: [id])
+  symptoms AssessmentSymptom[]
+
+  @@map("assessment")
+}
+
+model Symptom {
+  id            String           @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  symptomName   String           @map("symptom_name")
+  category      SymptomCategory?
+  weightM       Decimal?         @map("weight_m") @db.Decimal(3, 2)
+  weightF       Decimal?         @map("weight_f") @db.Decimal(3, 2)
+  applicableSex Sex?             @map("applicable_sex")
+
+  assessments AssessmentSymptom[]
+
+  @@map("symptom")
+}
+
+model AssessmentSymptom {
+  assessmentId String @map("assessment_id") @db.Uuid
+  symptomId    String @map("symptom_id") @db.Uuid
+
+  assessment Assessment @relation(fields: [assessmentId], references: [id])
+  symptom    Symptom    @relation(fields: [symptomId], references: [id])
+
+  @@id([assessmentId, symptomId])
+  @@map("assessment_symptom")
+}
