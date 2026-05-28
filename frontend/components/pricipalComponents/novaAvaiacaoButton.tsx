@@ -9,6 +9,7 @@ type Props = {
 onPress: () => void;
 };
 
+// conferir parte das cores
 export function NovaAvaliacaoButton({ onPress }: Props) {
 const corBotao = Colors.light.corBotao;
 
