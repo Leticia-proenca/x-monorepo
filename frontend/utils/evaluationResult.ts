@@ -10,6 +10,7 @@ type EvaluationResultNavigationParams = {
 };
 
 export type LoadedEvaluationResult = {
+  evaluationId: string;
   patientName: string;
   score: number;
   screeningResult: ScreeningResult;
@@ -47,6 +48,7 @@ export async function loadEvaluationResult(
   const patient = patients.find((item) => item.id === evaluation.patientId);
 
   return {
+    evaluationId: evaluation.id,
     patientName: patient?.name ?? 'Paciente',
     score: evaluation.score ?? 0,
     screeningResult: evaluation.screeningResult ?? 'low_risk',

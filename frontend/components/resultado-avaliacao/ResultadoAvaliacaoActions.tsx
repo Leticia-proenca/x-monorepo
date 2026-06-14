@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
@@ -5,15 +6,18 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { FormButton } from '@/components/ui/form-button';
 import { useBreakpointLayout } from '@/hooks/useBreakpointLayout';
 import { useThemeColor } from '@/hooks/use-theme-color';
+import { exportEvaluationPdf } from '@/services/evaluations';
 
 const BUTTON_HEIGHT = 52;
 
 type ResultadoAvaliacaoActionsProps = {
+  evaluationId?: string;
   onGoHome?: () => void;
   onNewEvaluation?: () => void;
 };
 
 export function ResultadoAvaliacaoActions({
+  evaluationId,
   onGoHome,
   onNewEvaluation,
 }: ResultadoAvaliacaoActionsProps) {
@@ -24,24 +28,48 @@ export function ResultadoAvaliacaoActions({
   const backgroundColor = useThemeColor({}, 'background');
   const greenColor = '#10B981';
 
-  const handleDownload = () => {
-    Alert.alert(
-      'Relatório em PDF',
-      'A exportação de relatórios estará disponível em uma versão futura.',
-    );
+  const [isDownloading, setIsDownloading] = useState(false);
+
+  const handleDownload = async () => {
+    if (isDownloading) return;
+    if (!evaluationId) {
+      Alert.alert('Relatório em PDF', 'Avaliação não identificada para exportar.');
+      return;
+    }
+
+    setIsDownloading(true);
+    try {
+      await exportEvaluationPdf(evaluationId);
+    } catch (error) {
+      Alert.alert(
+        'Relatório em PDF',
+        error instanceof Error
+          ? error.message
+          : 'Não foi possível gerar o PDF da avaliação.',
+      );
+    } finally {
+      setIsDownloading(false);
+    }
   };
+
+  const downloadLabel = isDownloading ? 'Gerando PDF...' : 'Baixar Relatório (PDF)';
 
   if (isStatsRow) {
     return (
       <View style={styles.wideContainer}>
         <TouchableOpacity
-          style={[styles.wideButton, { backgroundColor: buttonColor }]}
+          style={[
+            styles.wideButton,
+            { backgroundColor: buttonColor },
+            isDownloading && styles.buttonDisabled,
+          ]}
           activeOpacity={0.85}
           onPress={handleDownload}
+          disabled={isDownloading}
         >
           <IconSymbol name="arrow.down.circle.fill" size={20} color={onPrimaryColor} />
           <ThemedText style={[styles.widePrimaryLabel, { color: onPrimaryColor }]}>
-            Baixar Relatório (PDF)
+            {downloadLabel}
           </ThemedText>
         </TouchableOpacity>
 
@@ -81,10 +109,11 @@ export function ResultadoAvaliacaoActions({
   return (
     <View style={styles.container}>
       <FormButton
-        label="Baixar Relatório (PDF)"
+        label={downloadLabel}
         icon="arrow.down.circle.fill"
         grouped
         onPress={handleDownload}
+        disabled={isDownloading}
       />
 
       <View style={styles.secondaryButtonsRow}>
@@ -134,6 +163,9 @@ const styles = StyleSheet.create({
     height: BUTTON_HEIGHT,
     gap: 8,
     paddingHorizontal: 12,
+  },
+  buttonDisabled: {
+    opacity: 0.6,
   },
   wideOutlineButton: {
     borderWidth: 2,

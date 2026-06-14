@@ -26,6 +26,12 @@ assessmentRouter.get(
 );
 
 assessmentRouter.get(
+  "/:id/pdf",
+  validate(getEvaluationParamsSchema, "params"),
+  assessmentController.getPdf,
+);
+
+assessmentRouter.get(
   "/:id",
   validate(getEvaluationParamsSchema, "params"),
   assessmentController.getById,

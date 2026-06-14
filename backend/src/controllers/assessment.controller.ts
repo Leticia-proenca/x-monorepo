@@ -1,5 +1,6 @@
 import type { Request, Response } from "express";
 import { assessmentService } from "../services/assessment.service.js";
+import { pdfService } from "../services/pdf.service.js";
 import type {
   GetEvaluationParams,
   GetEvaluationsQuery,
@@ -27,5 +28,22 @@ export const assessmentController = {
     if (!evaluation)
       return res.status(404).json({ error: "Avaliação não encontrada" });
     res.json(evaluation);
+  },
+
+  async getPdf(req: Request<GetEvaluationParams>, res: Response) {
+    const data = await assessmentService.getEvaluationForPdf(
+      req.params.id,
+      req.user!.id,
+    );
+    if (!data)
+      return res.status(404).json({ error: "Avaliação não encontrada" });
+
+    const pdf = await pdfService.generateEvaluationPdf(data);
+    res.setHeader("Content-Type", "application/pdf");
+    res.setHeader(
+      "Content-Disposition",
+      `inline; filename="avaliacao-${req.params.id}.pdf"`,
+    );
+    return res.send(pdf);
   },
 };

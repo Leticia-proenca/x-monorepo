@@ -8,6 +8,7 @@ import { patientRepository } from "../repositories/patient.repository.js";
 import { symptomRepository } from "../repositories/symptom.repository.js";
 import { userRepository } from "../repositories/user.repository.js";
 import { calcularScore } from "./scoring.service.js";
+import type { EvaluationPdfData } from "./pdf.service.js";
 import type {
   CreateEvaluationInput,
   EvaluationDTO,
@@ -84,6 +85,34 @@ export const assessmentService = {
 
     const sessions = await sessionNumbersFor([row.patientId]);
     return toDetailDto(row, sessions.get(row.id) ?? 1);
+  },
+
+  async getEvaluationForPdf(
+    id: string,
+    userId: string,
+  ): Promise<EvaluationPdfData | null> {
+    const row = await assessmentRepository.findByIdWithPatient(id);
+    if (!row) return null;
+    if (row.userId !== userId && !(await isAdmin(userId))) return null;
+
+    const sessions = await sessionNumbersFor([row.patientId]);
+    return {
+      sessionNumber: sessions.get(row.id) ?? 1,
+      assessmentDate: row.assessmentDate,
+      score: row.score === null ? null : Number(row.score),
+      screeningResult: row.screeningResult,
+      appliedThreshold:
+        row.appliedThreshold === null ? null : Number(row.appliedThreshold),
+      patient: {
+        name: row.patient.name,
+        sex: row.patient.sex,
+        birthDate: row.patient.birthDate,
+      },
+      symptoms: row.symptoms.map((s) => ({
+        name: s.symptom.symptomName,
+        isPresent: s.isPresent,
+      })),
+    };
   },
 
   async list(

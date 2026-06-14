@@ -31,6 +31,7 @@ export default function ResultadoAvaliacaoScreen() {
   const [isLoading, setIsLoading] = useState(Boolean(params.evaluationId || params.patientId));
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loadedResult, setLoadedResult] = useState<{
+    evaluationId: string;
     patientName: string;
     score: number;
     screeningResult: ScreeningResult;
@@ -77,6 +78,7 @@ export default function ResultadoAvaliacaoScreen() {
     loadedResult?.appliedThreshold ?? Number.parseFloat(params.appliedThreshold ?? '0');
   const patientName = loadedResult?.patientName ?? params.patientName;
   const screeningResult = loadedResult?.screeningResult ?? params.screeningResult;
+  const evaluationId = loadedResult?.evaluationId ?? params.evaluationId;
   const isSuspected = screeningResult === 'suspected';
 
   if (isLoading) {
@@ -103,6 +105,7 @@ export default function ResultadoAvaliacaoScreen() {
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       >
         <ResultadoAvaliacaoForm
+          evaluationId={evaluationId}
           patientName={patientName}
           score={score}
           maxScore={1}
