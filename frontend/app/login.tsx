@@ -1,4 +1,3 @@
-import { useRouter } from "expo-router";
 import { useState } from "react";
 import {
   KeyboardAvoidingView,
@@ -22,7 +21,6 @@ const LOGIN_FONT =
   "'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
 
 export default function LoginScreen() {
-  const router = useRouter();
   const { signIn, isSigningIn } = useAuth();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const titleColor = useThemeColor({}, "text");
@@ -72,7 +70,6 @@ export default function LoginScreen() {
               squared
               fontFamily={LOGIN_FONT}
               onSubmit={handleLogin}
-              onGoToRegister={() => router.push("/register")}
               isLoading={isSigningIn}
               errorMessage={errorMessage}
             />
