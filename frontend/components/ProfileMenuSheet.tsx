@@ -12,6 +12,7 @@ type ProfileMenuSheetProps = {
   isLoggingOut?: boolean;
   onClose: () => void;
   onLogout: () => void;
+  onCadastrarPaciente?: () => void;
 };
 
 export function ProfileMenuSheet({
@@ -21,12 +22,15 @@ export function ProfileMenuSheet({
   isLoggingOut = false,
   onClose,
   onLogout,
+  onCadastrarPaciente,
 }: ProfileMenuSheetProps) {
   const titleColor = useThemeColor({}, 'text');
   const labelColor = useThemeColor({}, 'label');
   const avatarBackground = useThemeColor({}, 'iconBoxColor');
   const avatarTextColor = useThemeColor({}, 'iconColor');
   const avatarBorderColor = useThemeColor({}, 'inputBorder');
+  const actionBorderColor = useThemeColor({}, 'inputBorder');
+  const actionTextColor = useThemeColor({}, 'buttonColor');
   const logoutBackground = useThemeColor({}, 'error');
   const logoutTextColor = useThemeColor({}, 'onPrimary');
   const handleColor = useThemeColor({ light: '#CBD5E1', dark: '#475569' }, 'inputBorder');
@@ -60,6 +64,18 @@ export function ProfileMenuSheet({
 
         <ThemedText style={[styles.name, { color: titleColor }]}>{displayName}</ThemedText>
         <ThemedText style={[styles.email, { color: labelColor }]}>{displayEmail}</ThemedText>
+
+        {onCadastrarPaciente ? (
+          <TouchableOpacity
+            style={[styles.actionButton, { borderColor: actionBorderColor }]}
+            onPress={onCadastrarPaciente}
+            activeOpacity={0.85}
+          >
+            <ThemedText style={[styles.actionLabel, { color: actionTextColor }]}>
+              Cadastrar usuário
+            </ThemedText>
+          </TouchableOpacity>
+        ) : null}
 
         <TouchableOpacity
           style={[styles.logoutButton, { backgroundColor: logoutBackground }]}
@@ -116,6 +132,19 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     marginBottom: 8,
+  },
+  actionButton: {
+    alignSelf: 'stretch',
+    height: 52,
+    borderRadius: 4,
+    borderWidth: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginTop: 8,
+  },
+  actionLabel: {
+    fontSize: 16,
+    fontWeight: '700',
   },
   logoutButton: {
     alignSelf: 'stretch',

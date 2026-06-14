@@ -2,9 +2,7 @@ import { useState } from 'react';
 import { TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
-import { AuthDivider } from '@/components/authComponents/auth_divider';
 import { AuthInfoModal } from '@/components/authComponents/auth_info_modal';
-import { AuthOutlineButton } from '@/components/authComponents/auth_outline_button';
 import { formStyles } from '@/components/authComponents/formStyles';
 import { FormButton } from '@/components/ui/form-button';
 import { FormInput } from '@/components/ui/form-input';
@@ -14,7 +12,6 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 
 type LoginFormProps = {
   onSubmit: (email: string, password: string) => void | Promise<void>;
-  onGoToRegister: () => void;
   isLoading?: boolean;
   errorMessage?: string | null;
   squared?: boolean;
@@ -23,7 +20,6 @@ type LoginFormProps = {
 
 export function LoginForm({
   onSubmit,
-  onGoToRegister,
   isLoading = false,
   errorMessage = null,
   squared = false,
@@ -99,13 +95,6 @@ export function LoginForm({
           disabled={isLoading}
           label={isLoading ? 'Entrando...' : 'Entrar'}
           grouped
-          squared={squared}
-          fontFamily={fontFamily}
-        />
-        <AuthDivider />
-        <AuthOutlineButton
-          label="Cadastrar"
-          onPress={onGoToRegister}
           squared={squared}
           fontFamily={fontFamily}
         />

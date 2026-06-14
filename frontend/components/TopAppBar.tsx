@@ -108,6 +108,10 @@ export function TopAppBar({ variant = 'menu', onBack }: TopAppBarProps) {
           isLoggingOut={isLoggingOut}
           onClose={() => setMenuVisible(false)}
           onLogout={() => void handleLogout()}
+          onCadastrarPaciente={() => {
+            setMenuVisible(false);
+            router.push('/cadastro-paciente');
+          }}
         />
       ) : null}
     </>
