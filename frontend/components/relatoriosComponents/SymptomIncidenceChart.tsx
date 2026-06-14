@@ -15,7 +15,7 @@ export function SymptomIncidenceChart({ symptoms }: SymptomIncidenceChartProps) 
   const cardBorderColor = useThemeColor({}, 'cardBorder');
   const titleColor = useThemeColor({ light: '#0B1C30', dark: '#ECEDEE' }, 'text');
   const labelColor = useThemeColor({}, 'label');
-  const badgeColor = useThemeColor({ light: '#00478D', dark: '#60A5FA' }, 'iconColor');
+  const badgeColor = useThemeColor({ light: '#1F2733', dark: '#AEB6C2' }, 'iconColor');
   const barColor = useThemeColor({}, 'buttonColor');
   const trackColor = useThemeColor({ light: '#F1F5F9', dark: '#384047' }, 'cardBorder');
 

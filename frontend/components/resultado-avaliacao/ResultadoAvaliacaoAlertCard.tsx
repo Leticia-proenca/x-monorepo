@@ -19,39 +19,27 @@ export function ResultadoAvaliacaoAlertCard({
   type = 'info',
   style,
 }: ResultadoAvaliacaoAlertCardProps) {
+  const surface = useThemeColor({}, 'cardSurface');
+  const inkColor = useThemeColor({}, 'text');
   const cardBorderColor = useThemeColor({}, 'cardBorder');
-  const warningBackground = useThemeColor(
-    { light: '#FEE2E2', dark: '#422020' },
-    'badgeSuspectBackground',
-  );
-  const infoBackground = useThemeColor(
-    { light: '#EFF6FF', dark: '#1A2A3D' },
-    'iconBoxColor',
-  );
 
   const colors = (() => {
     switch (type) {
       case 'danger':
+      case 'warning':
         return {
-          backgroundColor: warningBackground,
+          backgroundColor: surface,
           borderColor: '#DC2626',
           iconColor: '#DC2626',
           textColor: '#DC2626',
         };
-      case 'warning':
-        return {
-          backgroundColor: warningBackground,
-          borderColor: '#EF4444',
-          iconColor: '#EF4444',
-          textColor: '#EF4444',
-        };
       case 'info':
       default:
         return {
-          backgroundColor: infoBackground,
-          borderColor: '#005EB8',
-          iconColor: '#005EB8',
-          textColor: '#005EB8',
+          backgroundColor: surface,
+          borderColor: cardBorderColor,
+          iconColor: inkColor,
+          textColor: inkColor,
         };
     }
   })();
@@ -62,8 +50,7 @@ export function ResultadoAvaliacaoAlertCard({
         styles.container,
         {
           backgroundColor: colors.backgroundColor,
-          borderColor: cardBorderColor,
-          borderLeftColor: colors.borderColor,
+          borderColor: colors.borderColor,
         },
         style,
       ]}
@@ -90,10 +77,9 @@ export function ResultadoAvaliacaoAlertCard({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
+    borderRadius: 4,
     padding: 12,
     borderWidth: 1,
-    borderLeftWidth: 4,
     marginBottom: 16,
   },
   row: {

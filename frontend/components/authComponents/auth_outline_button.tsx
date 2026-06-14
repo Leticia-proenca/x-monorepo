@@ -6,19 +6,28 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 type AuthOutlineButtonProps = {
   label: string;
   onPress: () => void;
+  squared?: boolean;
+  fontFamily?: string;
 };
 
-export function AuthOutlineButton({ label, onPress }: AuthOutlineButtonProps) {
+export function AuthOutlineButton({
+  label,
+  onPress,
+  squared = false,
+  fontFamily,
+}: AuthOutlineButtonProps) {
   const borderColor = useThemeColor({}, 'cardBorder');
   const textColor = useThemeColor({}, 'buttonColor');
 
   return (
     <TouchableOpacity
-      style={[styles.button, { borderColor }]}
+      style={[styles.button, { borderColor, borderRadius: 4 }]}
       onPress={onPress}
       activeOpacity={0.85}
     >
-      <ThemedText style={[styles.label, { color: textColor }]}>{label}</ThemedText>
+      <ThemedText style={[styles.label, { color: textColor }, fontFamily ? { fontFamily } : null]}>
+        {label}
+      </ThemedText>
     </TouchableOpacity>
   );
 }
@@ -26,7 +35,7 @@ export function AuthOutlineButton({ label, onPress }: AuthOutlineButtonProps) {
 const styles = StyleSheet.create({
   button: {
     height: 52,
-    borderRadius: 10,
+    borderRadius: 4,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',

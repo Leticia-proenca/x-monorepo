@@ -24,7 +24,7 @@ export function TopAppBar({ variant = 'menu', onBack }: TopAppBarProps) {
 
   const backgroundColor = useThemeColor({}, 'background');
   const borderColor = useThemeColor({ light: '#E2E8F0', dark: '#384047' }, 'cardBorder');
-  const accentColor = useThemeColor({ light: '#1E40AF', dark: '#60A5FA' }, 'tint');
+  const accentColor = useThemeColor({}, 'tint');
   const avatarBorderColor = useThemeColor({ light: '#C2C6D4', dark: '#384047' }, 'inputBorder');
   const avatarBackground = useThemeColor({}, 'iconBoxColor');
   const avatarTextColor = useThemeColor({}, 'iconColor');
@@ -147,7 +147,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 40,
     height: 40,
-    borderRadius: 12,
+    borderRadius: 6,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',

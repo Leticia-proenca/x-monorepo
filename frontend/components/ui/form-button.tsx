@@ -11,6 +11,11 @@ type FormButtonProps = {
   showIcon?: boolean;
   icon?: string;
   grouped?: boolean;
+  /** Applies the system's single Action Shadow under the primary CTA. */
+  elevated?: boolean;
+  /** Institutional 4px corners instead of the default 10px. */
+  squared?: boolean;
+  fontFamily?: string;
 };
 
 export function FormButton({
@@ -20,9 +25,13 @@ export function FormButton({
   showIcon = true,
   icon = 'arrow.right.circle.fill',
   grouped = false,
+  elevated = false,
+  squared = false,
+  fontFamily,
 }: FormButtonProps) {
   const buttonColor = useThemeColor({}, 'buttonColor');
   const onPrimaryColor = useThemeColor({}, 'onPrimary');
+  const shadowColor = useThemeColor({}, 'buttonShadow');
 
   return (
     <TouchableOpacity
@@ -30,13 +39,17 @@ export function FormButton({
         styles.button,
         !grouped && styles.buttonSpaced,
         { backgroundColor: buttonColor },
+        squared && styles.squared,
+        elevated && !disabled && [styles.elevated, { shadowColor }],
         disabled && styles.buttonDisabled,
       ]}
       onPress={onPress}
       activeOpacity={0.85}
       disabled={disabled}
     >
-      <ThemedText style={[styles.label, { color: onPrimaryColor }]}>{label}</ThemedText>
+      <ThemedText style={[styles.label, { color: onPrimaryColor }, fontFamily ? { fontFamily } : null]}>
+        {label}
+      </ThemedText>
       {showIcon ? (
         <IconSymbol name={icon as never} size={20} color={onPrimaryColor} />
       ) : null}
@@ -49,7 +62,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 10,
+    borderRadius: 4,
     height: 52,
     gap: 8,
   },
@@ -63,5 +76,14 @@ const styles = StyleSheet.create({
   },
   buttonDisabled: {
     opacity: 0.6,
+  },
+  squared: {
+    borderRadius: 4,
+  },
+  elevated: {
+    shadowOffset: { width: 0, height: 4 },
+    shadowOpacity: 0.35,
+    shadowRadius: 10,
+    elevation: 6,
   },
 });

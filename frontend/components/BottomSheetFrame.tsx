@@ -82,7 +82,7 @@ const styles = StyleSheet.create({
     borderTopWidth: 1,
   },
   sheetCentered: {
-    borderRadius: 16,
+    borderRadius: 8,
     borderWidth: 1,
   },
 });
