@@ -13,6 +13,7 @@ import { useThemeColor } from '@/hooks/use-theme-color';
 import type { ScreeningResult } from '@/services/types/api';
 
 type ResultadoAvaliacaoFormProps = {
+  evaluationId?: string;
   patientName?: string;
   score?: number;
   maxScore?: number;
@@ -27,6 +28,7 @@ type ResultadoAvaliacaoFormProps = {
 };
 
 export function ResultadoAvaliacaoForm({
+  evaluationId,
   patientName,
   score = 0,
   maxScore = 1,
@@ -94,6 +96,7 @@ export function ResultadoAvaliacaoForm({
         <ResultadoAvaliacaoDetails items={detailItems} />
 
         <ResultadoAvaliacaoActions
+          evaluationId={evaluationId}
           onGoHome={onGoHome}
           onNewEvaluation={onNewEvaluation}
         />

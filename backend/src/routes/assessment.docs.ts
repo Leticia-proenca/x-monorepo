@@ -1,3 +1,4 @@
+import { z } from "zod";
 import type {
   ZodOpenApiPathsObject,
   ZodOpenApiResponseObject,
@@ -74,6 +75,29 @@ export const assessmentPaths: ZodOpenApiPathsObject = {
           description: "The requested evaluation.",
           content: {
             "application/json": { schema: evaluationDetailDtoSchema },
+          },
+        },
+        "400": errorResponse("Invalid id."),
+        "401": errorResponse("Missing or invalid token."),
+        "404": errorResponse("Evaluation not found or not owned by you."),
+      },
+    },
+  },
+  "/evaluations/{id}/pdf": {
+    get: {
+      operationId: "getEvaluationPdf",
+      tags: ["Evaluations"],
+      summary: "Download an evaluation as PDF",
+      description:
+        "Streams a per-evaluation PDF (patient, score, result and symptom checklist). Same ownership rules as the detail endpoint.",
+      requestParams: { path: getEvaluationParamsSchema },
+      responses: {
+        "200": {
+          description: "The evaluation PDF.",
+          content: {
+            "application/pdf": {
+              schema: z.string().meta({ format: "binary" }),
+            },
           },
         },
         "400": errorResponse("Invalid id."),

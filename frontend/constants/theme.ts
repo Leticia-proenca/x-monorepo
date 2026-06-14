@@ -5,22 +5,26 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
+// App font (web uses the loaded Space Grotesk; native falls back to system).
+export const APP_FONT =
+  "'Space Grotesk', system-ui, -apple-system, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif";
+
+const tintColorLight = '#1F2733';
 const tintColorDark = '#fff';
 
 export const Colors = {
   light: {
     text: '#11181C',
     background: '#FFFFFF',
-    pageBackground: '#F8F9FF',
+    pageBackground: '#F4F5F7',
     tint: tintColorLight,
     icon: '#687076',
     tabIconDefault: '#687076',
     tabIconSelected: tintColorLight,
     placeholderTextColor: '#C2C6D4',
-    buttonColor: '#005EB8',
-    iconColor: '#00478D',
-    iconBoxColor: '#EFF4FF',
+    buttonColor: '#1F2733',
+    iconColor: '#1F2733',
+    iconBoxColor: '#EEF0F3',
     label: '#424752',
     inputBackground: '#FFFFFF',
     inputBorder: '#DDE4EE',
@@ -34,7 +38,7 @@ export const Colors = {
     badgeSuspectText: '#C53030',
     badgeNormalBackground: '#D1FAE5',
     badgeNormalText: '#065F46',
-    buttonShadow: '#1A56DB',
+    buttonShadow: '#1F2733',
   },
   dark: {
     text: '#ECEDEE',
@@ -45,8 +49,8 @@ export const Colors = {
     tabIconDefault: '#9BA1A6',
     tabIconSelected: tintColorDark,
     placeholderTextColor: '#C2C6D4',
-    buttonColor: '#005EB8',
-    iconColor: '#00478D',
+    buttonColor: '#374151',
+    iconColor: '#AEB6C2',
     iconBoxColor: '#1F2426',
     label: '#94A3B8',
     inputBackground: '#1F2426',
@@ -61,7 +65,7 @@ export const Colors = {
     badgeSuspectText: '#FCA5A5',
     badgeNormalBackground: '#064E3B',
     badgeNormalText: '#6EE7B7',
-    buttonShadow: '#1A56DB',
+    buttonShadow: '#11151A',
   },
 };
 

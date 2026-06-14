@@ -137,7 +137,7 @@ const styles = StyleSheet.create({
   },
   card: {
     borderWidth: 1,
-    borderRadius: 12,
+    borderRadius: 6,
     padding: 16,
     gap: 4,
     flex: 1,

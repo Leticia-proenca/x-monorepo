@@ -32,6 +32,13 @@ export const assessmentRepository = {
     });
   },
 
+  findByIdWithPatient(id: string) {
+    return prisma.assessment.findFirst({
+      where: { id, deletedAt: null },
+      include: { patient: true, ...withSymptoms },
+    });
+  },
+
   findMany(
     filters: GetEvaluationsQuery,
     { userId, isAdmin }: { userId: string; isAdmin: boolean },

@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
   card: {
     width: '100%',
     maxWidth: 360,
-    borderRadius: 12,
+    borderRadius: 6,
     padding: 24,
     gap: 12,
   },
@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
   },
   button: {
     height: 48,
-    borderRadius: 10,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 8,

@@ -1,0 +1,8 @@
+# impeccable — local only (não versionar por enquanto)
+PRODUCT.md
+DESIGN.md
+.impeccable/
+.claude/*
+
+# macOS
+.DS_Store

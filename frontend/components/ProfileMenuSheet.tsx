@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
   avatar: {
     width: 72,
     height: 72,
-    borderRadius: 20,
+    borderRadius: 8,
     borderWidth: 1,
     alignItems: 'center',
     justifyContent: 'center',
@@ -120,7 +120,7 @@ const styles = StyleSheet.create({
   logoutButton: {
     alignSelf: 'stretch',
     height: 52,
-    borderRadius: 10,
+    borderRadius: 4,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 8,

@@ -60,7 +60,7 @@ export function ResultadoAvaliacaoScoreCard({
 
 const styles = StyleSheet.create({
   container: {
-    borderRadius: 10,
+    borderRadius: 4,
     padding: 20,
     gap: 16,
     borderWidth: 1,

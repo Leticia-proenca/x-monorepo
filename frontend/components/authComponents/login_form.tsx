@@ -17,6 +17,8 @@ type LoginFormProps = {
   onGoToRegister: () => void;
   isLoading?: boolean;
   errorMessage?: string | null;
+  squared?: boolean;
+  fontFamily?: string;
 };
 
 export function LoginForm({
@@ -24,6 +26,8 @@ export function LoginForm({
   onGoToRegister,
   isLoading = false,
   errorMessage = null,
+  squared = false,
+  fontFamily,
 }: LoginFormProps) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -33,10 +37,11 @@ export function LoginForm({
   const placeholderTextColor = useThemeColor({}, 'placeholderTextColor');
   const labelColor = useThemeColor({}, 'label');
   const errorColor = useThemeColor({}, 'error');
+  const fontStyle = fontFamily ? { fontFamily } : null;
 
   return (
     <View style={formStyles.container}>
-      <ThemedText style={[formStyles.label, { color: labelColor }]}>
+      <ThemedText style={[formStyles.label, { color: labelColor }, fontStyle]}>
         E-MAIL PROFISSIONAL
       </ThemedText>
       <FormInput
@@ -48,15 +53,21 @@ export function LoginForm({
         autoCapitalize="none"
         autoCorrect={false}
         iconName="envelope.fill"
+        squared={squared}
+        style={fontStyle}
       />
 
       <View style={formStyles.passwordLabelRow}>
-        <ThemedText style={[formStyles.label, { color: labelColor, marginTop: 0 }]}>
+        <ThemedText style={[formStyles.label, { color: labelColor, marginTop: 0 }, fontStyle]}>
           SENHA
         </ThemedText>
         <TouchableOpacity onPress={() => setForgotPasswordVisible(true)} activeOpacity={0.7}>
           <ThemedText
-            style={[formStyles.forgotText, { color: Colors[colorScheme ?? 'light'].tint }]}
+            style={[
+              formStyles.forgotText,
+              { color: Colors[colorScheme ?? 'light'].tint },
+              fontStyle,
+            ]}
           >
             Esqueci minha senha
           </ThemedText>
@@ -72,10 +83,12 @@ export function LoginForm({
         iconName="lock.fill"
         rightIconName={passwordVisible ? 'eye.slash.fill' : 'eye.fill'}
         onRightIconPress={() => setPasswordVisible(!passwordVisible)}
+        squared={squared}
+        style={fontStyle}
       />
 
       {errorMessage ? (
-        <ThemedText style={[formStyles.errorText, { color: errorColor }]}>
+        <ThemedText style={[formStyles.errorText, { color: errorColor }, fontStyle]}>
           {errorMessage}
         </ThemedText>
       ) : null}
@@ -86,9 +99,16 @@ export function LoginForm({
           disabled={isLoading}
           label={isLoading ? 'Entrando...' : 'Entrar'}
           grouped
+          squared={squared}
+          fontFamily={fontFamily}
         />
         <AuthDivider />
-        <AuthOutlineButton label="Cadastrar" onPress={onGoToRegister} />
+        <AuthOutlineButton
+          label="Cadastrar"
+          onPress={onGoToRegister}
+          squared={squared}
+          fontFamily={fontFamily}
+        />
       </View>
 
       <AuthInfoModal

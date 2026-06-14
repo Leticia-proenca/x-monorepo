@@ -41,8 +41,8 @@ const MAPPING = {
   'checkmark.circle.fill': 'check-circle',
   'plus.circle.fill': 'add-circle',
   'arrow.down.circle.fill': 'download',
-  'figure.stand': 'man',
-  figure: 'woman',
+  'figure.stand': 'male',
+  figure: 'female',
 } as IconMapping;
 
 /**

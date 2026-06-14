@@ -17,11 +17,6 @@ type RecentesPrincipalProps = {
   onItemPress?: (evaluationId: string) => void;
 };
 
-const LEFT_BAR_COLORS = {
-  SUSPEITA: '#E53E3E',
-  'NÃO SUSPEITO': '#38A169',
-};
-
 function chunk<T>(items: T[], size: number): T[][] {
   const rows: T[][] = [];
 
@@ -83,9 +78,6 @@ export function RecentesPrincipal({ data, onVerTodos, onItemPress }: RecentesPri
                         },
                       ]}
                     >
-                      <View
-                        style={[styles.leftBar, { backgroundColor: LEFT_BAR_COLORS[item.status] }]}
-                      />
                       <View style={styles.cardContent}>
                         <ThemedText style={styles.patientName}>{item.name}</ThemedText>
                         <ThemedText style={styles.date}>{item.date}</ThemedText>
@@ -129,7 +121,7 @@ const styles = StyleSheet.create({
   },
   seeAll: {
     fontSize: 13,
-    color: '#00478D',
+    color: '#1F2733',
     fontWeight: '500',
   },
   list: {
@@ -154,18 +146,14 @@ const styles = StyleSheet.create({
   card: {
     flexDirection: 'row',
     alignItems: 'center',
-    borderRadius: 12,
+    borderRadius: 6,
     borderWidth: 1,
     overflow: 'hidden',
-  },
-  leftBar: {
-    width: 4,
-    alignSelf: 'stretch',
   },
   cardContent: {
     flex: 1,
     paddingVertical: 14,
-    paddingHorizontal: 12,
+    paddingHorizontal: 16,
     gap: 4,
   },
   patientName: {

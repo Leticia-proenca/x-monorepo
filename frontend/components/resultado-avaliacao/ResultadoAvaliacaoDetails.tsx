@@ -71,7 +71,7 @@ const styles = StyleSheet.create({
     letterSpacing: 0.8,
   },
   detailsBox: {
-    borderRadius: 10,
+    borderRadius: 4,
     borderWidth: 1,
     padding: 12,
     gap: 0,

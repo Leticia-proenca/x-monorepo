@@ -9,18 +9,21 @@ import {
 
 import { ThemedView } from '@/components/themed-view';
 import { IconSymbol } from '@/components/ui/icon-symbol';
+import { APP_FONT } from '@/constants/theme';
 import { useThemeColor } from '@/hooks/use-theme-color';
 
 type FormInputProps = TextInputProps & {
   iconName?: string;
   rightIconName?: string;
   onRightIconPress?: () => void;
+  squared?: boolean;
 };
 
 export function FormInput({
   iconName,
   rightIconName,
   onRightIconPress,
+  squared = false,
   style,
   ...textInputProps
 }: FormInputProps) {
@@ -35,7 +38,7 @@ export function FormInput({
     <ThemedView
       lightColor={backgroundColor}
       darkColor={backgroundColor}
-      style={[styles.wrapper, { borderColor }]}
+      style={[styles.wrapper, { borderColor, borderRadius: 4 }]}
     >
       {iconName ? (
         <IconSymbol
@@ -64,7 +67,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     borderWidth: 1,
-    borderRadius: 10,
+    borderRadius: 4,
     overflow: 'hidden',
     paddingHorizontal: 14,
     height: 50,
@@ -77,6 +80,7 @@ const styles = StyleSheet.create({
     fontSize: 15,
     height: '100%',
     backgroundColor: 'transparent',
+    fontFamily: APP_FONT,
   },
   rightIconBtn: {
     paddingLeft: 10,
