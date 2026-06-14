@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Alert, StyleSheet, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
 import { ThemedText } from '@/components/themed-text';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -7,6 +7,7 @@ import { FormButton } from '@/components/ui/form-button';
 import { useBreakpointLayout } from '@/hooks/useBreakpointLayout';
 import { useThemeColor } from '@/hooks/use-theme-color';
 import { exportEvaluationPdf } from '@/services/evaluations';
+import { showAlert } from '@/utils/showAlert';
 
 const BUTTON_HEIGHT = 52;
 
@@ -33,7 +34,7 @@ export function ResultadoAvaliacaoActions({
   const handleDownload = async () => {
     if (isDownloading) return;
     if (!evaluationId) {
-      Alert.alert('Relatório em PDF', 'Avaliação não identificada para exportar.');
+      showAlert('Relatório em PDF', 'Avaliação não identificada para exportar.');
       return;
     }
 
@@ -41,7 +42,7 @@ export function ResultadoAvaliacaoActions({
     try {
       await exportEvaluationPdf(evaluationId);
     } catch (error) {
-      Alert.alert(
+      showAlert(
         'Relatório em PDF',
         error instanceof Error
           ? error.message

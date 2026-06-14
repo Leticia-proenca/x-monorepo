@@ -28,7 +28,9 @@ export default function ResultadoAvaliacaoScreen() {
   const params = useLocalSearchParams<ResultadoAvaliacaoParams>();
   const errorColor = useThemeColor({}, 'error');
 
-  const [isLoading, setIsLoading] = useState(Boolean(params.evaluationId || params.patientId));
+  const [isLoading, setIsLoading] = useState(
+    Boolean((params.evaluationId || params.patientId) && params.score === undefined),
+  );
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [loadedResult, setLoadedResult] = useState<{
     evaluationId: string;
@@ -39,6 +41,12 @@ export default function ResultadoAvaliacaoScreen() {
   } | null>(null);
 
   useEffect(() => {
+    // Create flow passes the full result statically (incl. score) plus
+    // evaluationId — no need to re-fetch. Only the reports flow (id without
+    // static score) needs to load.
+    if (params.score !== undefined) {
+      return;
+    }
     if (!params.evaluationId && !params.patientId) {
       return;
     }

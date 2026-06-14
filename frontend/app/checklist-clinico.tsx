@@ -118,6 +118,7 @@ export default function ChecklistClinicoScreen() {
       router.replace({
         pathname: '/resultado-avaliacao',
         params: {
+          evaluationId: evaluation.id,
           patientName,
           score: String(evaluation.score),
           screeningResult: evaluation.screeningResult,
